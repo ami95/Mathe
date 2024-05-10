@@ -1,0 +1,47 @@
+lst_input = input("Enter the numbers for which you want the GCD, separated by a space \n").split()
+lst_input = [eval(i) for  i in lst_input]
+lst_primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101]
+
+def break_into_prime_factors(n):
+    i = 0
+    lst_prime_factors_of_n = [1]
+    while n != 1:
+        if n % lst_primes[i] == 0:
+            lst_prime_factors_of_n[i] = lst_prime_factors_of_n[i] * lst_primes[i]
+            n = n/lst_primes[i]
+        else:
+            i = i + 1
+            lst_prime_factors_of_n.append(1)
+    return lst_prime_factors_of_n
+
+def get_GCD(lol, max_len):
+    #input("max_len = " + str(max_len))
+    min = [1] * (max_len+1)
+    #input("min = " + str(min))
+    for i in range(len(lol)-1):
+        tail = [1] * (max_len-(len(lol[i])-1))
+        #input("tail of " + str(lol[i]) + " is  " + str(tail))
+        lol[i] = lol[i] + tail
+        min[i] = lol[0][i]
+        for j in range(len(lol)-1):
+            #input(lol)
+             #input(j)
+            if lol[j][i] < min[i]:
+                min[i] = lol[j][i]
+    return min
+
+lst_lst_prime_factors = []
+max_len = 0
+for n in lst_input:
+    # break n into prime factors
+    prime_factors_of_n = break_into_prime_factors(n)
+    max_len = len(prime_factors_of_n) - 1
+    lst_lst_prime_factors.append(prime_factors_of_n)
+
+
+
+lst_min = get_GCD(lst_lst_prime_factors, max_len)
+GCD = 1
+for m in lst_min:
+    GCD = GCD * m
+print("GCD is: " + str(GCD))
